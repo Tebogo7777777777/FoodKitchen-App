@@ -24,7 +24,7 @@ const courseData = {
   
 const HomePage = ({navigation}) => {
   const [selectedCategory, setSelectedCategory] = useState('Starter');
-  const [selectedDish, setSelectedDish] = useState(null); // New state for selected dish
+  const [selectedDish, setSelectedDish] = useState(null); // (OpenAI,2024)
   const [dishName, setDishName] = useState('');
   const [description, setDescription] = useState('');
   const [course, setCourse] = useState('starter');
