@@ -132,108 +132,107 @@ const HomePage = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#98FF98', // Light greyish-blue background for a modern look
+    backgroundColor: '#f0f8ff', // Light, airy blue background for a refreshing look
   },
   scrollContainer: {
-    paddingBottom: 30, // Slightly more padding for smooth scrolling
+    paddingBottom: 30, // Sufficient padding for smoother scrolling
   },
   header: {
-    backgroundColor: '#ff7043', // A brighter shade of orange for a vibrant feel
-    padding: 20, // Increased padding for a more spacious header
+    backgroundColor: '#ff7043', // Vibrant orange for a warm and inviting feel
+    padding: 25, // Increased padding for a spacious and modern header
     alignItems: 'center',
-    borderBottomLeftRadius: 15, // Rounded corners for a modern touch
-    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 20, // Enhanced roundness for a stylish look
+    borderBottomRightRadius: 20,
+    elevation: 3, // Subtle shadow for a lifted effect
   },
   logo: {
-    fontSize: 32, // Increased size for better visibility
+    fontSize: 34, // Larger, more prominent logo font
     fontWeight: 'bold',
     color: '#fff',
-    letterSpacing: 2, // Spacing for a sleek effect
+    letterSpacing: 1.5, // Gentle letter spacing for sophistication
   },
   menuLabel: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 25,
-    paddingVertical: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd', // Slightly softer color for the border
-    backgroundColor: '#f9f9f9',
+    borderBottomColor: '#e0e0e0', // Softer border for a clean appearance
+    backgroundColor: '#ffffff', // Bright white for contrast
   },
   menuText: {
-    fontSize: 22,
-    fontWeight: '600', // Slightly lighter for a refined look
-    color: '#FF0000', // Darker grey for better contrast
+    fontSize: 20,
+    fontWeight: '500',
+    color: '#333', // Dark gray for strong readability
   },
   menuNumber: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
-    color: '#ff7043', // Matched to the header color for consistency
+    color: '#ff7043', // Matches header color for consistency
   },
   courseButtons: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly', // Evenly spaced for a balanced layout
-    marginVertical: 15, // More vertical spacing
-    paddingHorizontal: 30, // More horizontal padding
+    justifyContent: 'space-evenly',
+    marginVertical: 20,
+    paddingHorizontal: 15,
   },
   selectedDish: {
-    backgroundColor: '#CD5C5C', // Clean white background
-    padding: 22,
-    marginHorizontal: 25,
-    marginBottom: 12,
-    borderRadius: 12, // More rounded for a modern touch
+    backgroundColor: '#ffffff',
+    padding: 20,
+    marginHorizontal: 15,
+    marginBottom: 15,
+    borderRadius: 15,
     borderColor: '#ddd',
     borderWidth: 1,
-    shadowColor: '#000', // Added shadow for depth
-    shadowOffset: { width: 0, height: 2 },
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2, // Elevation for Android
+    shadowRadius: 5,
+    elevation: 3,
   },
   dishTitle: {
-    fontSize: 39,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFA500',
-    marginBottom: 12,
+    color: '#ff7043',
+    marginBottom: 10,
   },
   dishDescription: {
-    fontSize: 17,
-    color: '#555', // Slightly darker text for better readability
+    fontSize: 16,
+    color: '#555', // Neutral tone for secondary text
   },
   menuItem: {
     padding: 18,
-    backgroundColor: '#fafafa', // Slightly off-white for a clean, subtle look
-    borderBottomColor: '#eee',
+    backgroundColor: '#f9f9f9', // Subtle gray for differentiation
+    borderBottomColor: '#ddd',
     borderBottomWidth: 1,
-    marginHorizontal: 25,
+    marginHorizontal: 15,
+    borderRadius: 8,
   },
   inputLabel: {
-    fontSize: 17,
-    marginBottom: 6,
-    color: '#666', // Light grey for a softer input label
+    fontSize: 16,
+    marginBottom: 8,
+    color: '#666', // Muted gray for input labels
   },
   inputField: {
     borderWidth: 1,
     borderColor: '#ccc',
-    padding: 12,
-    borderRadius: 8, // More rounded for modern styling
-    marginBottom: 22,
-    backgroundColor: '#fff', // White background for input fields
+    padding: 14,
+    borderRadius: 10,
+    marginBottom: 20,
+    backgroundColor: '#ffffff',
   },
   addToMenuButton: {
-    backgroundColor: '#FFA500', // Orange color for the add button
+    backgroundColor: '#27ae60', // Vibrant green for call-to-action
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 10,
     marginTop: 20,
     alignItems: 'center',
-
-
   },
   addButtonText: {
-    color: '#FFA500',
-    textAlign: 'center',
-    fontSize: 17,
+    color: '#ffffff',
+    fontSize: 18,
     fontWeight: 'bold',
-    letterSpacing: 1,
+    letterSpacing: 1.2,
   },
 });
 

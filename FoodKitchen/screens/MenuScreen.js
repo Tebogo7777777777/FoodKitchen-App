@@ -1,102 +1,192 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
+const MenuItem = ({ item, index, deleteMenuItem }) => (
+  <View style={styles.menuItem}>
+    <Text style={styles.menuItemText}>Meal: {item.dishName}</Text>
+    <Text>Overview: {item.description}</Text>
+    <Text>Course: {item.course}</Text>
+    <Text>Cost: R{item.price}</Text>
+    <TouchableOpacity
+      style={styles.deleteButton}
+      onPress={() => deleteMenuItem(index)}
+    >
+      <Text style={styles.deleteButtonText}>Delete</Text>
+    </TouchableOpacity>
+  </View>
+);
 
-const MenuScreen = ({ route, navigation }) => { // w3schools.com
+const MenuScreen = ({ route, navigation }) => {
   const { menu } = route.params;
+  const [menuItemsArray, setMenuItemsArray] = useState([...menu]);
+  const [filteredMenu, setFilteredMenu] = useState({ All: menu, Starters: [], Main: [], Desserts: [] });
+  const [selectedCourse, setSelectedCourse] = useState('All');
+
+  // Filter items by selected course
+  useEffect(() => {
+    const starters = menuItemsArray.filter(item => item.course === 'Starters');
+    const main = menuItemsArray.filter(item => item.course === 'Main');
+    const desserts = menuItemsArray.filter(item => item.course === 'Desserts');
+    
+    if (selectedCourse === 'All') {
+      setFilteredMenu({ All: menuItemsArray, Starters: starters, Main: main, Desserts: desserts });
+    } else {
+      setFilteredMenu({
+        All: menuItemsArray,
+        Starters: starters,
+        Main: main,
+        Desserts: desserts,
+      });
+    }
+  }, [selectedCourse, menuItemsArray]);
+
+  // Delete a menu item
+  const deleteMenuItem = (index) => {
+    Alert.alert(
+      'Delete Menu Item',
+      'Are you sure you want to delete this item?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            const updatedMenu = [...menuItemsArray];
+            updatedMenu.splice(index, 1);
+            setMenuItemsArray(updatedMenu); // Update the menu items array
+          },
+        },
+      ]
+    );
+  };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 18, fontWeight: 'bold' }}>The FoodKitchen Menu </Text>
-      <Text>Total Menu Items: {menu.length}</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>The FoodKitchen Menu</Text>
+      <Text style={styles.menuInfo}>Total Menu Items: {menuItemsArray.length}</Text>
 
+      {/* Back Button */}
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Text style={styles.buttonText}>Back</Text>
+      </TouchableOpacity>
+
+      {/* Course Filter */}
+      <Picker
+        selectedValue={selectedCourse}
+        style={styles.picker}
+        onValueChange={(itemValue) => setSelectedCourse(itemValue)}
+      >
+        <Picker.Item label="All" value="All" />
+        <Picker.Item label="Starters" value="Starters" />
+        <Picker.Item label="Main" value="Main" />
+        <Picker.Item label="Desserts" value="Desserts" />
+      </Picker>
+
+      {/* Display the grouped menu items */}
       <FlatList
-        data={menu}
+        data={filteredMenu[selectedCourse]}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={{ marginVertical: 10, borderBottomWidth: 1, paddingBottom: 10 }}>
-            <Text>Meal: {item.dishName}</Text>
-            <Text>Overview: {item.description}</Text>
-            <Text>Course: {item.course}</Text>
-            <Text>Cost: R{item.price}</Text>
-          </View>
+        ListHeaderComponent={selectedCourse !== 'All' && (
+          <Text style={styles.courseHeader}>{selectedCourse}</Text>
+        )}
+        renderItem={({ item, index }) => (
+          <MenuItem item={item} index={index} deleteMenuItem={deleteMenuItem} />
         )}
       />
-      
 
+      {/* Add to Menu Button */}
+      <TouchableOpacity
+        style={styles.addToMenuButton}
+        onPress={() => navigation.navigate('AddMenuItemScreen')}
+      >
+        <Text style={styles.buttonText}>Add to Menu</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 25,
     flex: 1,
-    backgroundColor: '#808000', 
+    padding: 20,
+    backgroundColor: '#f8f9fa',
   },
   title: {
-    fontSize: 42, // Slightly larger for a more impactful title
-    fontStyle: 'italic', // Italicized, not 'Italic' (corrected typo)
-    fontWeight: '600', // Softer weight for a refined, elegant style
-    marginBottom: 25,
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#2c3e50',
     textAlign: 'center',
-    color: '#3e2723', // Dark brown for a luxurious feel
-    letterSpacing: 1, // Slight spacing for a more premium appearance
+    marginBottom: 20,
   },
   menuInfo: {
-    fontSize: 18, // Slightly larger for readability
-    marginBottom: 15,
+    fontSize: 16,
+    color: '#7f8c8d',
     textAlign: 'center',
-    color: '#7e7e7e', // Softer grey to create a subtle and classy look
-    fontStyle: 'italic', // Added for an elegant touch
+    marginBottom: 15,
+  },
+  picker: {
+    height: 50,
+    backgroundColor: '#ecf0f1',
+    borderRadius: 8,
+    marginBottom: 20,
+    paddingHorizontal: 10,
   },
   menuItem: {
-    marginVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#dcdcdc', // Light, subtle borders
-    paddingBottom: 15,
-    backgroundColor: '#fff', // Clean white for the menu item background
-    borderRadius: 10, // Rounded corners for a polished feel
-    shadowColor: '#000', // Soft shadow for depth
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    padding: 15,
+    marginVertical: 10,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3, // Elevation for Android
+    shadowRadius: 4,
+    elevation: 3,
   },
   menuItemText: {
-    fontSize: 18, // Slightly larger for emphasis
-    color: '#333', // Dark grey for a classic look
-    marginBottom: 8,
-    fontWeight: '500', // Medium weight for readability and style
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#34495e',
+    marginBottom: 5,
   },
-  backButton: {
-    backgroundColor: '#8b4513', // Rich brown color for a luxurious touch
-    padding: 15,
-    borderRadius: 30, // More rounded button for a premium feel
-    marginTop: 25,
+  deleteButton: {
+    marginTop: 10,
+    backgroundColor: '#e74c3c',
+    padding: 10,
+    borderRadius: 5,
     alignItems: 'center',
-    shadowColor: '#000', // Soft shadow for a lifted effect
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4, // Elevation for Android
-    
-    addToMenuButton: {
-      backgroundColor: '#FFA500', // Orange color for the add button
-      padding: 15,
-      borderRadius: 5,
-      marginTop: 20,
-      alignItems: 'center',
-    },
+  },
+  deleteButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  addToMenuButton: {
+    backgroundColor: '#27ae60',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 20,
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 18, // Larger text for a more impactful button
-    fontWeight: 'bold', // Bold for emphasis
-    letterSpacing: 1, // Spaced out letters for a refined look
+    color: '#ffffff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
-
-  
+  courseHeader: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#2c3e50',
+    textAlign: 'center',
+    marginVertical: 15,
+  },
+  backButton: {
+    backgroundColor: '#2980b9',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
 });
 
 export default MenuScreen;
