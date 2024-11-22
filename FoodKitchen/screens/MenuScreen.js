@@ -20,26 +20,27 @@ const MenuItem = ({ item, index, deleteMenuItem }) => (
 const MenuScreen = ({ route, navigation }) => {
   const { menu } = route.params;
   const [menuItemsArray, setMenuItemsArray] = useState([...menu]);
-  const [filteredMenu, setFilteredMenu] = useState({ All: menu, Starters: [], Main: [], Desserts: [] });
+  const [filteredMenu, setFilteredMenu] = useState({
+    All: menu,
+    Starters: [],
+    Main: [],
+    Desserts: [],
+  });
   const [selectedCourse, setSelectedCourse] = useState('All');
 
-  // Filter items by selected course
+  // Update filteredMenu when menuItemsArray changes
   useEffect(() => {
-    const starters = menuItemsArray.filter(item => item.course === 'Starters');
-    const main = menuItemsArray.filter(item => item.course === 'Main');
-    const desserts = menuItemsArray.filter(item => item.course === 'Desserts');
-    
-    if (selectedCourse === 'All') {
-      setFilteredMenu({ All: menuItemsArray, Starters: starters, Main: main, Desserts: desserts });
-    } else {
-      setFilteredMenu({
-        All: menuItemsArray,
-        Starters: starters,
-        Main: main,
-        Desserts: desserts,
-      });
-    }
-  }, [selectedCourse, menuItemsArray]);
+    const starters = menuItemsArray.filter((item) => item.course === 'Starters');
+    const main = menuItemsArray.filter((item) => item.course === 'Main');
+    const desserts = menuItemsArray.filter((item) => item.course === 'Desserts');
+
+    setFilteredMenu({
+      All: menuItemsArray,
+      Starters: starters,
+      Main: main,
+      Desserts: desserts,
+    });
+  }, [menuItemsArray]);
 
   // Delete a menu item
   const deleteMenuItem = (index) => {
@@ -54,7 +55,7 @@ const MenuScreen = ({ route, navigation }) => {
           onPress: () => {
             const updatedMenu = [...menuItemsArray];
             updatedMenu.splice(index, 1);
-            setMenuItemsArray(updatedMenu); // Update the menu items array
+            setMenuItemsArray(updatedMenu);
           },
         },
       ]
